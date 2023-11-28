@@ -24,4 +24,14 @@ public class StudentRestController {
         return studentsList;
     }
 
+    @GetMapping("/students/{studentId}")
+    Student getStudent(@PathVariable Integer studentId) {
+        List<Student> studentsList = new ArrayList<Student>();
+        studentsList.add(new Student("sumit", "kumar", 1));
+        studentsList.add(new Student("dodo", "jojo", 2));
+        studentsList.add(new Student("deepa", "soni", 3));
+        // jackson will auto convert the studentsList(java pojo) into json objects array
+        return studentsList.get(studentId);
+    }
+
 }
