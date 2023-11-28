@@ -45,7 +45,7 @@ public class StudentRestController {
         }
     }
 
-    // add expetion handler
+    // add expetion handler to catch StudentNotFoundException specifically
     @ExceptionHandler
     public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exception) {
         StudentErrorResponse errorResponse = new StudentErrorResponse();
@@ -54,5 +54,16 @@ public class StudentRestController {
         errorResponse.setTimeStamp(System.currentTimeMillis());
         // jackson will convert pojo response to nice json response
         return new ResponseEntity<StudentErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    // add expetion handler to catch other edge exception cases
+    @ExceptionHandler
+    public ResponseEntity<StudentErrorResponse> handleException(Exception exception) {
+        StudentErrorResponse errorResponse = new StudentErrorResponse();
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+        // jackson will convert pojo response to nice json response
+        return new ResponseEntity<StudentErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
